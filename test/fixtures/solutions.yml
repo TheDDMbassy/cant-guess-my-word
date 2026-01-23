@@ -1,0 +1,22 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  status: solved
+  guesser_name: bing_bong_68
+  elapsed_time: 2
+  guesses: middle zany super
+  puzzle: one
+
+two:
+  status: solved
+  guesser_name: king_kong_69
+  elapsed_time: 3
+  guesses: middle apple ghost fan
+  puzzle: two
+
+three:
+  status: guessing
+  guesser_name: bing_bong_70
+  elapsed_time: null
+  guesses: middle zany
+  puzzle: one
