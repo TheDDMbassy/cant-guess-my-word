@@ -64,5 +64,6 @@ group :test do
   gem "selenium-webdriver"
 end
 
+gem "annotate"
 gem "foreman"
 gem "tailwindcss-rails", "~> 4.4"
