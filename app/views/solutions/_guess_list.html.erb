@@ -1,0 +1,9 @@
+<div class="w-4/5">
+  <% guesses.each do |guess| %>
+    <% if guess == italic_check %>
+      <div class="w-full italic"><%= guess %></div>
+    <% else %>
+      <div class="w-full"><%= guess %></div>
+    <% end %>
+  <% end %>
+</div>

@@ -1,22 +1,16 @@
-<div id="<%= dom_id solution %>" class="w-full sm:w-auto my-5 space-y-5">
-  <div>
-    <strong class="block font-medium mb-1">Status:</strong>
-    <%= solution.status %>
+<div id="<%= dom_id solution %>" class="w-full sm:w-auto my-6">
+  <div class="after-guesses flex" id="after">
+    <label class="text-right w-1/8 pr-2 relative font-bold self-end" id="after-label"> is after: </label>
+    <%= render partial: 'guess_list', locals: { guesses: solution.answer_is_after, italic_check: solution.most_recent_guess } %>
   </div>
-  <div>
-    <strong class="block font-medium mb-1">Guesser name:</strong>
-    <%= solution.guesser_name %>
+
+  <div class="guesser flex">
+    <label class="text-right w-1/8"></label>
+    <%= render partial: 'form', locals: { solution: solution } %>
   </div>
-  <div>
-    <strong class="block font-medium mb-1">Elapsed time:</strong>
-    <%= solution.elapsed_time %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Guesses:</strong>
-    <%= solution.guesses %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Puzzle:</strong>
-    <%= solution.puzzle_id %>
+
+  <div class="before-guesses flex" id="before">
+    <label class="text-right w-1/8 pr-2 relative font-bold" id="before-label"> is before: </label>
+    <%= render partial: 'guess_list', locals: { guesses: solution.answer_is_before, italic_check: solution.most_recent_guess } %>
   </div>
 </div>

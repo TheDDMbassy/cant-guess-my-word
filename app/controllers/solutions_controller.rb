@@ -12,7 +12,11 @@ class SolutionsController < ApplicationController
 
   # GET /solutions/new
   def new
-    @solution = Solution.new
+    puzzle = Puzzle.find_by(day: Date.today)
+
+    puzzle = Puzzle.last unless puzzle
+
+    @solution = Solution.new(puzzle:)
   end
 
   # GET /solutions/1/edit
@@ -21,11 +25,12 @@ class SolutionsController < ApplicationController
 
   # POST /solutions or /solutions.json
   def create
-    @solution = Solution.new(solution_params)
+    @solution = Solution.new(transformed(solution_params))
+
 
     respond_to do |format|
       if @solution.save
-        format.html { redirect_to @solution, notice: "Solution was successfully created." }
+        format.html { redirect_to @solution }
         format.json { render :show, status: :created, location: @solution }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -37,8 +42,8 @@ class SolutionsController < ApplicationController
   # PATCH/PUT /solutions/1 or /solutions/1.json
   def update
     respond_to do |format|
-      if @solution.update(solution_params)
-        format.html { redirect_to @solution, notice: "Solution was successfully updated.", status: :see_other }
+      if @solution.update(transformed(solution_params))
+        format.html { redirect_to @solution, status: :see_other }
         format.json { render :show, status: :ok, location: @solution }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -58,13 +63,22 @@ class SolutionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
+    def transformed(solution_params)
+      guess = solution_params[:guess]
+
+      solution_params.except(:guess).merge({
+        # Add the latest guess to the entire string of guesses
+        guesses: "#{@solution&.guesses} #{guess}".strip,
+        most_recent_guess: guess
+      })
+    end
+
     def set_solution
       @solution = Solution.find(params.expect(:id))
     end
 
-    # Only allow a list of trusted parameters through.
     def solution_params
-      params.expect(solution: [ :status, :guesser_name, :elapsed_time, :guesses, :puzzle_id ])
+      params.expect(solution: [ :status, :guesser_name, :elapsed_time, :guess, :puzzle_id ])
     end
 end
