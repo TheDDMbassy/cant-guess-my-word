@@ -24,6 +24,7 @@ one:
   guesser_name: bing_bong_68
   elapsed_time: 2
   guesses: middle zany super
+  most_recent_guess: super
   puzzle: one
 
 two:
@@ -31,6 +32,7 @@ two:
   guesser_name: king_kong_69
   elapsed_time: 3
   guesses: middle apple ghost fan
+  most_recent_guess: fan
   puzzle: two
 
 three:
@@ -38,4 +40,5 @@ three:
   guesser_name: bing_bong_70
   elapsed_time: null
   guesses: middle zany
+  most_recent_guess: zany
   puzzle: one

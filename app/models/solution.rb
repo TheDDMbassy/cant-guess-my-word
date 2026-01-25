@@ -19,6 +19,84 @@
 
 class Solution < ApplicationRecord
   belongs_to :puzzle
+  include AASM
+
+  aasm column: :status do
+    state :no_guesses, initial: true
+    state :guessing
+    state :solved, before_enter: :solve
+
+    after_all_transitions :add_guess_to_guesses_list
+
+    event :guess, guards: [ :allowed? ] do
+      before do |word|
+        log("STATE MACHINE EVENT `guess` fired with word '#{word}'")
+      end
+
+      after do |word|
+        log("STATE MACHINE EVENT `guess` complete, status is now #{status}")
+      end
+
+      transitions from: :guessing, to: :solved, guard: :right_answer?
+      transitions from: :no_guesses, to: :solved, guard: :right_answer?
+
+      transitions from: :no_guesses, to: :guessing
+      transitions from: :guessing, to: :guessing
+    end
+  end
+
+  def solve
+    self.update!(elapsed_time: Time.now - created_at)
+  end
+
+  def allowed?(word)
+    log("checking if '#{word}' is `allowed?`")
+
+    unless dictionary.include?(word)
+      log("nope, it's not in the dictionary")
+      if errors[:most_recent_guess].count < 1
+        errors.add(:most_recent_guess, "Guess must be an English word. (Scrabble-acceptable)")
+      end
+      return false
+    end
+
+    guess_list = guesses&.split&.sort || []
+    if guess_list.include?(word)
+      log("nope, already guessed it")
+      if errors[:most_recent_guess].count < 1
+        errors.add(:most_recent_guess, "Oops, you've already guessed that word.")
+      end
+      return false
+    end
+
+    log("yep, it's allowed!")
+    true
+  end
+
+  def dictionary
+    [ "hello", "goodbye", "super", "zany", "fan" ]
+  end
+
+  def add_guess_to_guesses_list(word)
+    log("entering AFTER TRANSITION")
+    self.update!(guesses: "#{guesses} #{word}".strip, most_recent_guess: word).tap do
+      log "STATE MACHINE AFTER TRANSITION updated guess list with '#{word}', list is now '#{guesses}'"
+    end
+  end
+
+  def right_answer?(word)
+    word == answer
+  end
+
+  def start_time
+    created_at
+  end
+
+  def log(thing)
+    Rails.logger.info("===> #{thing}")
+  end
+
+  # View Helpers, extract later
 
   def answer
     @answer ||= puzzle.answer

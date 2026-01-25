@@ -2,7 +2,7 @@ require "test_helper"
 
 class SolutionsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @solution = solutions(:one)
+    @solution = solutions(:three)
   end
 
   test "should get index" do
@@ -25,11 +25,6 @@ class SolutionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should show solution" do
     get solution_url(@solution)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get edit_solution_url(@solution)
     assert_response :success
   end
 

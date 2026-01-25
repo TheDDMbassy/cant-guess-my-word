@@ -1,5 +1,6 @@
 class SolutionsController < ApplicationController
-  before_action :set_solution, only: %i[ show edit update destroy ]
+  before_action :set_solution, only: %i[ show update destroy ]
+  before_action :set_user_guess, only: %i[ create update ]
 
   # GET /solutions or /solutions.json
   def index
@@ -19,36 +20,34 @@ class SolutionsController < ApplicationController
     @solution = Solution.new(puzzle:)
   end
 
-  # GET /solutions/1/edit
-  def edit
-  end
-
   # POST /solutions or /solutions.json
   def create
-    @solution = Solution.new(transformed(solution_params))
-
+    @solution = Solution.new(solution_params.except(:user_guess))
 
     respond_to do |format|
-      if @solution.save
-        format.html { redirect_to @solution }
-        format.json { render :show, status: :created, location: @solution }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @solution.errors, status: :unprocessable_entity }
-      end
+      @solution.guess(@user_guess)
+
+      format.html { redirect_to @solution }
+      format.json { render :show, status: :created, location: @solution }
+
+    rescue AASM::InvalidTransition
+      format.html { render :new, status: :unprocessable_entity }
+      format.json { render json: @solution.errors, status: :unprocessable_entity }
     end
   end
 
   # PATCH/PUT /solutions/1 or /solutions/1.json
   def update
     respond_to do |format|
-      if @solution.update(transformed(solution_params))
-        format.html { redirect_to @solution, status: :see_other }
-        format.json { render :show, status: :ok, location: @solution }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @solution.errors, status: :unprocessable_entity }
-      end
+      # if @solution.may_guess?(@user_guess)
+      @solution.guess(@user_guess)
+      format.html { redirect_to @solution, status: :see_other }
+      format.json { render :show, status: :ok, location: @solution }
+      # else
+    rescue AASM::InvalidTransition
+      format.html { render :show, status: :unprocessable_entity }
+      format.json { render json: @solution.errors, status: :unprocessable_entity }
+      # end
     end
   end
 
@@ -64,21 +63,15 @@ class SolutionsController < ApplicationController
 
   private
 
-    def transformed(solution_params)
-      guess = solution_params[:guess]
-
-      solution_params.except(:guess).merge({
-        # Add the latest guess to the entire string of guesses
-        guesses: "#{@solution&.guesses} #{guess}".strip,
-        most_recent_guess: guess
-      })
-    end
-
     def set_solution
       @solution = Solution.find(params.expect(:id))
     end
 
+    def set_user_guess
+      @user_guess = solution_params.dig(:user_guess)
+    end
+
     def solution_params
-      params.expect(solution: [ :status, :guesser_name, :elapsed_time, :guess, :puzzle_id ])
+      params.expect(solution: [ :status, :guesser_name, :elapsed_time, :user_guess, :puzzle_id ])
     end
 end
