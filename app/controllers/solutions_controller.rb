@@ -1,6 +1,6 @@
 class SolutionsController < ApplicationController
-  before_action :set_solution, only: %i[ show update destroy ]
-  before_action :set_user_guess, only: %i[ create update ]
+  before_action :set_solution, only: %i[ show update destroy guess ]
+  before_action :set_user_guess, only: %i[ create update guess ]
 
   # GET /solutions or /solutions.json
   def index
@@ -38,8 +38,11 @@ class SolutionsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /solutions/1 or /solutions/1.json
   def update
+  end
+
+  # PATCH/PUT /solutions/1 or /solutions/1.json
+  def guess
     respond_to do |format|
       @solution.guess!(@user_guess)
       format.html { redirect_to @solution, status: :see_other }

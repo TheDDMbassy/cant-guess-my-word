@@ -1,0 +1,5 @@
+<div class="">
+  <%= form_with(model: solution, url: guess_solution_path(solution), class: "") do |form| %>
+    <%= render 'form_fields', form: form, solution: solution %>
+  <% end %>
+</div>

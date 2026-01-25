@@ -1,16 +1,16 @@
 <div id="<%= dom_id solution %>" class="w-full sm:w-auto my-6">
   <div class="after-guesses flex" id="after">
     <label class="text-right w-1/8 pr-2 relative font-bold self-end" id="after-label"> is after: </label>
-    <%= render partial: 'guess_list', locals: { guesses: solution.answer_is_after, italic_check: solution.most_recent_guess } %>
+    <%= render 'guess_list', guesses: solution.answer_is_after, italic_check: solution.most_recent_guess %>
   </div>
 
   <div class="guesser flex">
     <label class="text-right w-1/8"></label>
-    <%= render partial: 'form', locals: { solution: solution } %>
+    <%= render 'guessing_form', solution: solution %>
   </div>
 
   <div class="before-guesses flex" id="before">
     <label class="text-right w-1/8 pr-2 relative font-bold" id="before-label"> is before: </label>
-    <%= render partial: 'guess_list', locals: { guesses: solution.answer_is_before, italic_check: solution.most_recent_guess } %>
+    <%= render 'guess_list', guesses: solution.answer_is_before, italic_check: solution.most_recent_guess %>
   </div>
 </div>

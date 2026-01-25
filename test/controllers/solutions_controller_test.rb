@@ -33,11 +33,11 @@ class SolutionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should update solution" do
+  test "should update solution with guesses" do
     assert_equal "middle zany", @solution.guesses
     assert_equal "zany", @solution.most_recent_guess
 
-    patch solution_url(@solution), params: { solution: { user_guess: "apple", puzzle_id: @solution.puzzle_id } }
+    patch guess_solution_url(@solution), params: { solution: { user_guess: "apple", puzzle_id: @solution.puzzle_id } }
 
     assert_redirected_to solution_url(@solution)
 
