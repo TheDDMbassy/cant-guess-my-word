@@ -17,10 +17,15 @@ class SolutionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create solution" do
     assert_difference("Solution.count") do
-      post solutions_url, params: { solution: { elapsed_time: @solution.elapsed_time, guesser_name: @solution.guesser_name, guesses: @solution.guesses, puzzle_id: @solution.puzzle_id, status: @solution.status } }
+      post solutions_url, params: { solution: { puzzle_id: puzzles(:one).id, user_guess: "apple" } }
     end
 
-    assert_redirected_to solution_url(Solution.last)
+    solution = Solution.last
+
+    assert_redirected_to solution_url(solution)
+    assert solution.guessing?, "Solution should be in the 'guessing' state"
+    assert_equal "apple", solution.guesses
+    assert_equal "apple", solution.most_recent_guess
   end
 
   test "should show solution" do
@@ -29,8 +34,16 @@ class SolutionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update solution" do
-    patch solution_url(@solution), params: { solution: { elapsed_time: @solution.elapsed_time, guesser_name: @solution.guesser_name, guesses: @solution.guesses, puzzle_id: @solution.puzzle_id, status: @solution.status } }
+    assert_equal "middle zany", @solution.guesses
+    assert_equal "zany", @solution.most_recent_guess
+
+    patch solution_url(@solution), params: { solution: { user_guess: "apple", puzzle_id: @solution.puzzle_id } }
+
     assert_redirected_to solution_url(@solution)
+
+    @solution.reload
+    assert_equal "middle zany apple", @solution.guesses
+    assert_equal "apple", @solution.most_recent_guess
   end
 
   test "should destroy solution" do

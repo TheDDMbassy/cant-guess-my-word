@@ -74,11 +74,10 @@ class Solution < ApplicationRecord
   end
 
   def dictionary
-    [ "hello", "goodbye", "super", "zany", "fan" ]
+    [ "apple", "hello", "goodbye", "super", "zany", "fan" ]
   end
 
   def add_guess_to_guesses_list(word)
-    log("entering AFTER TRANSITION")
     self.update!(guesses: "#{guesses} #{word}".strip, most_recent_guess: word).tap do
       log "STATE MACHINE AFTER TRANSITION updated guess list with '#{word}', list is now '#{guesses}'"
     end

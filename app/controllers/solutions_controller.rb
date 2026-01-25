@@ -22,10 +22,12 @@ class SolutionsController < ApplicationController
 
   # POST /solutions or /solutions.json
   def create
+    # Don't guess the user_guess yet, need to persist the solution to the database first so that
+    # the state machine can look up the correct answer.
     @solution = Solution.new(solution_params.except(:user_guess))
 
     respond_to do |format|
-      @solution.guess(@user_guess)
+      @solution.guess!(@user_guess)
 
       format.html { redirect_to @solution }
       format.json { render :show, status: :created, location: @solution }
@@ -39,15 +41,12 @@ class SolutionsController < ApplicationController
   # PATCH/PUT /solutions/1 or /solutions/1.json
   def update
     respond_to do |format|
-      # if @solution.may_guess?(@user_guess)
-      @solution.guess(@user_guess)
+      @solution.guess!(@user_guess)
       format.html { redirect_to @solution, status: :see_other }
       format.json { render :show, status: :ok, location: @solution }
-      # else
     rescue AASM::InvalidTransition
       format.html { render :show, status: :unprocessable_entity }
       format.json { render json: @solution.errors, status: :unprocessable_entity }
-      # end
     end
   end
 
@@ -72,6 +71,6 @@ class SolutionsController < ApplicationController
     end
 
     def solution_params
-      params.expect(solution: [ :status, :guesser_name, :elapsed_time, :user_guess, :puzzle_id ])
+      params.expect(solution: [ :guesser_name, :user_guess, :puzzle_id ])
     end
 end

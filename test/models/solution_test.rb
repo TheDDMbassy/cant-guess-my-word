@@ -30,24 +30,26 @@ class SolutionTest < ActiveSupport::TestCase
     assert @solution.no_guesses?
   end
 
-  # def test_guess__not_a_real_word
-  #   assert_raises "AASM::InvalidTransition" do
-  #     @solution.guess("asdf")
-  #   end
-  # end
-  #
-  # def test_guesses_must_be_unique
-  #
-  # end
+  def test_guess__not_a_real_word
+    assert_raises "AASM::InvalidTransition" do
+      @solution.guess("asdf")
+    end
+  end
+
+  def test_guesses_must_be_unique
+    @solution.guess("apple")
+
+    assert_raises "AASM::InvalidTransition" do
+      @solution.guess("apple")
+    end
+  end
 
   def test_guesses_recorded
-    @solution.guess("banana")
     @solution.guess("apple")
-    @solution.guess("durian")
     @solution.guess("super")
 
     # Order matters
-    assert_equal "banana apple durian super", @solution.guesses
+    assert_equal "apple super", @solution.guesses
     assert @solution.solved?, "Expected puzzle to be solved"
     assert @solution.elapsed_time, "Expected elapsed time NOT to be `nil`"
   end
