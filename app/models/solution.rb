@@ -52,7 +52,7 @@ class Solution < ApplicationRecord
   def allowed?(word)
     log("checking if '#{word}' is `allowed?`")
 
-    unless dictionary.include?(word)
+    unless DICTIONARY.include?(word.downcase)
       log("nope, it's not in the dictionary")
       if errors[:most_recent_guess].count < 1
         errors.add(:most_recent_guess, "Guess must be an English word. (Scrabble-acceptable)")
@@ -71,10 +71,6 @@ class Solution < ApplicationRecord
 
     log("yep, it's allowed!")
     true
-  end
-
-  def dictionary
-    [ "apple", "hello", "goodbye", "super", "zany", "fan" ]
   end
 
   def add_guess_to_guesses_list(word)
