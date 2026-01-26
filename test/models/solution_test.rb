@@ -56,6 +56,7 @@ class SolutionTest < ActiveSupport::TestCase
 
   def test_instant_correct_guess
     assert @solution.no_guesses?
+    @solution.save
 
     @solution.guess("super")
 
