@@ -24,11 +24,10 @@ class Solution < ApplicationRecord
   aasm column: :status do
     state :no_guesses, initial: true
     state :guessing
+    state :gave_up
     state :solved, before_enter: :solve
 
-    after_all_transitions :add_guess_to_guesses_list
-
-    event :guess, guards: [ :allowed? ] do
+    event :guess, after: :add_guess_to_guesses_list, guards: [ :allowed? ] do
       before do |word|
         log("STATE MACHINE EVENT `guess` fired with word '#{word}'")
       end
@@ -42,6 +41,10 @@ class Solution < ApplicationRecord
 
       transitions from: :no_guesses, to: :guessing
       transitions from: :guessing, to: :guessing
+    end
+
+    event :give_up do
+      transitions from: :guessing, to: :gave_up
     end
   end
 

@@ -1,0 +1,8 @@
+<div class="">
+  <%= form_with(model: solution, url: guess_solution_path(solution), class: "") do |form| %>
+    <%= render 'form_fields', form: form, solution: solution %>
+  <% end %>
+  <%= form_with(model: solution, url: give_up_solution_path(solution), data: { turbo_confirm: "Really give up? Lmao" }) do |form| %>
+    <%= form.submit 'give up :(', class: 'text-sm underline cursor-pointer text-blue-600 ml-50 mt-1' %>
+  <% end %>
+</div>

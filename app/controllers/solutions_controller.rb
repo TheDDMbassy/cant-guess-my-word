@@ -1,5 +1,5 @@
 class SolutionsController < ApplicationController
-  before_action :set_solution, only: %i[ show update destroy guess ]
+  before_action :set_solution, only: %i[ show update destroy guess give_up ]
   before_action :set_user_guess, only: %i[ create update guess ]
 
   # GET /solutions or /solutions.json
@@ -50,6 +50,13 @@ class SolutionsController < ApplicationController
     rescue AASM::InvalidTransition
       format.html { render :show, status: :unprocessable_entity }
       format.json { render json: @solution.errors, status: :unprocessable_entity }
+    end
+  end
+
+  def give_up
+    respond_to do |format|
+      @solution.give_up!
+      format.html { redirect_to @solution, status: :see_other }
     end
   end
 

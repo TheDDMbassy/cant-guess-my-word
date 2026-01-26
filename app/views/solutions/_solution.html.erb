@@ -11,17 +11,10 @@
     <% end %>
   </div>
 
-  <% if solution.solved? %>
-    <div class="solved flex">
-      <label class="text-right w-36"></label>
-      <%= render 'solved', solution: solution %>
-    </div>
-  <% else %>
-    <div class="guesser flex">
-      <label class="text-right w-36"></label>
-      <%= render 'guessing_form', solution: solution %>
-    </div>
-  <% end %>
+  <div class="guesser-section flex">
+    <label class="text-right w-36"></label>
+    <%= render solution.status, solution: solution %>
+  </div>
 
   <div class="before-guesses flex" id="before">
     <% if before_answers.any? %>

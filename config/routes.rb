@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :solutions, except: [ :edit ] do
     member do
       patch :guess
+      patch :give_up
     end
   end
 
