@@ -112,4 +112,24 @@ class Solution < ApplicationRecord
       sorted = guesses.split.sort
     end
   end
+
+  def guess_stats
+    "(#{guess_count} guesses in #{format_elapsed_time})"
+  end
+
+  def format_elapsed_time
+    quotient, remainder = elapsed_time.divmod(60)
+
+    time = "#{remainder}s"
+
+    if quotient > 0
+      time = "#{quotient}m and #{time}"
+    end
+
+    time
+  end
+
+  def guess_count
+    sorted_guesses.count
+  end
 end

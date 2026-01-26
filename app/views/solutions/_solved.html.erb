@@ -1,0 +1,11 @@
+<div class="correct-solution my-2">
+  <p class="font-bold text-2xl my-2">You got it!!! 🎉🎉🎉</p>
+  <p class="mb-4"><%= solution.guess_stats %></p>
+  <div class="correct-solution-window flex">
+    <% word = solution.most_recent_guess %>
+    <% link = "https://duckduckgo.com/?q=#{word}&ia=definition" %>
+
+    <p class="text-xl italic flex-auto mb-2 underline"><%= word %></p>
+    <%= link_to '(definition)', link, class: "mb-2 text-xl flex-auto underline text-cyan-800" %>
+  </div>
+</div>

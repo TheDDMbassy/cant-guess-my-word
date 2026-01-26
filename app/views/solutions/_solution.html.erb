@@ -1,16 +1,34 @@
 <div id="<%= dom_id solution %>" class="w-full sm:w-auto my-6">
+  <% after_answers = solution.answer_is_after %>
+  <% before_answers = solution.answer_is_before %>
+
   <div class="after-guesses flex" id="after">
-    <label class="text-right w-1/8 pr-2 relative font-bold self-end" id="after-label"> is after: </label>
-    <%= render 'guess_list', guesses: solution.answer_is_after, italic_check: solution.most_recent_guess %>
+    <% if after_answers.any? %>
+      <label class="text-right w-36 pr-2 relative font-bold self-end" id="after-label"> is after: </label>
+      <%= render 'guess_list', guesses: after_answers, italic_check: solution.most_recent_guess %>
+    <% else%>
+      <label class="w-36 pr-2 relative font-bold self-end" id="after-label-no-word"></label>
+    <% end %>
   </div>
 
-  <div class="guesser flex">
-    <label class="text-right w-1/8"></label>
-    <%= render 'guessing_form', solution: solution %>
-  </div>
+  <% if solution.solved? %>
+    <div class="solved flex">
+      <label class="text-right w-36"></label>
+      <%= render 'solved', solution: solution %>
+    </div>
+  <% else %>
+    <div class="guesser flex">
+      <label class="text-right w-36"></label>
+      <%= render 'guessing_form', solution: solution %>
+    </div>
+  <% end %>
 
   <div class="before-guesses flex" id="before">
-    <label class="text-right w-1/8 pr-2 relative font-bold" id="before-label"> is before: </label>
-    <%= render 'guess_list', guesses: solution.answer_is_before, italic_check: solution.most_recent_guess %>
+    <% if before_answers.any? %>
+      <label class="text-right w-36 pr-2 relative font-bold self-end" id="before-label"> is before: </label>
+      <%= render 'guess_list', guesses: before_answers, italic_check: solution.most_recent_guess %>
+    <% else%>
+      <label class="w-36 pr-2 relative font-bold self-end" id="before-label-no-word"></label>
+    <% end %>
   </div>
 </div>
