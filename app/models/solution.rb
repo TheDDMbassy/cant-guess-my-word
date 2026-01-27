@@ -49,7 +49,7 @@ class Solution < ApplicationRecord
   end
 
   def solve
-    self.update!(elapsed_time: Time.now - created_at)
+    self.update!(elapsed_time: Time.now - start_time)
   end
 
   def allowed?(word)
@@ -87,7 +87,7 @@ class Solution < ApplicationRecord
   end
 
   def start_time
-    created_at
+    created_at || Time.now
   end
 
   def log(thing)
