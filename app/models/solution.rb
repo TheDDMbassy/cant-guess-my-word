@@ -43,9 +43,13 @@ class Solution < ApplicationRecord
       transitions from: :guessing, to: :guessing
     end
 
-    event :give_up do
+    event :give_up, after: :measure_tap_out_time do
       transitions from: :guessing, to: :gave_up
     end
+  end
+
+  def measure_tap_out_time
+    solve # Winds up being the same method as solve, but different status
   end
 
   def solve
@@ -121,12 +125,16 @@ class Solution < ApplicationRecord
   end
 
   def format_elapsed_time
-    quotient, remainder = elapsed_time.divmod(60)
+    quotient, remainder = (elapsed_time || 0).divmod(60)
 
     time = "#{remainder}s"
 
     if quotient > 0
-      time = "#{quotient}m and #{time}"
+      time = "#{quotient}m #{time}"
+    end
+
+    if gave_up?
+      time = "DNF (#{time})"
     end
 
     time

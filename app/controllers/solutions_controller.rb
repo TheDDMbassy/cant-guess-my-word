@@ -39,6 +39,13 @@ class SolutionsController < ApplicationController
   end
 
   def update
+    respond_to do |format|
+      if @solution.update(solution_params)
+        format.html { redirect_to solutions_path, notice: "Score successfully added to leaderboard!", status: :see_other }
+      else
+        format.html { render :show, status: :unprocessable_entity }
+      end
+    end
   end
 
   # PATCH/PUT /solutions/1 or /solutions/1.json

@@ -8,4 +8,15 @@
     <p class="text-xl italic flex-auto mb-2 underline"><%= word %></p>
     <%= link_to '(definition)', link, class: "mb-2 text-xl flex-auto underline text-cyan-800" %>
   </div>
+  <div class="bg-gra">
+
+  </div>
+  <%= form_with(model: solution) do |form| %>
+    <<div class="flex">
+
+    </div>
+    <label class="text-sm">enter your name for the completion board</label>
+    <%= form.text_field :guesser_name, class: "mr-2 rounded-sm border px-1" %>
+    <%= form.submit "submit", class: "mr-2 rounded-sm border px-1 bg-gray-200" %>
+  <% end %>
 </div>
