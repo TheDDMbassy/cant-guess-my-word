@@ -24,4 +24,7 @@
       <label class="w-36 pr-2 relative font-bold self-end" id="before-label-no-word"></label>
     <% end %>
   </div>
+  <%= form_with(model: solution, url: give_up_solution_path(solution), class: "", data: { turbo_confirm: "Really give up? Lmao" }) do |form| %>
+    <%= form.submit 'give up :(', class: 'text-sm underline cursor-pointer text-blue-600 ml-50 mt-1' %>
+  <% end %>
 </div>
