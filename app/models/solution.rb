@@ -23,6 +23,8 @@ class Solution < ApplicationRecord
   belongs_to :puzzle
   include AASM
 
+  validates :guesser_name, profanity: true
+
   aasm column: :status do
     state :no_guesses, initial: true
     state :guessing
