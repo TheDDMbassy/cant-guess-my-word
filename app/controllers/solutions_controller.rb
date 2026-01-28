@@ -84,7 +84,7 @@ class SolutionsController < ApplicationController
     end
 
     def set_user_guess
-      @user_guess = solution_params.dig(:user_guess).strip.downcase
+      @user_guess = solution_params.dig(:user_guess)&.strip&.downcase
     end
 
     def solution_params
