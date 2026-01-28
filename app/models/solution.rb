@@ -14,7 +14,9 @@
 #
 # Indexes
 #
-#  index_solutions_on_puzzle_id  (puzzle_id)
+#  index_solutions_on_elapsed_time  (elapsed_time)
+#  index_solutions_on_puzzle_id     (puzzle_id)
+#  index_solutions_on_status        (status)
 #
 
 class Solution < ApplicationRecord

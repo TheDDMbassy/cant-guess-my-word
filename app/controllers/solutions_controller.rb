@@ -1,10 +1,14 @@
 class SolutionsController < ApplicationController
   before_action :set_solution, only: %i[ show update destroy guess give_up ]
   before_action :set_user_guess, only: %i[ create update guess ]
+  before_action :set_puzzle, only: %i[ index new ]
 
   # GET /solutions or /solutions.json
   def index
-    @solutions = Solution.all
+    @solutions = Solution
+      .where(puzzle: @puzzle)
+      .where(status: [ "solved" ])
+      .order(:elapsed_time)
   end
 
   # GET /solutions/1 or /solutions/1.json
@@ -13,11 +17,7 @@ class SolutionsController < ApplicationController
 
   # GET /solutions/new
   def new
-    puzzle = Puzzle.find_by(day: Date.current)
-
-    puzzle = Puzzle.last unless puzzle
-
-    @solution = Solution.new(puzzle:)
+    @solution = Solution.new(puzzle: @puzzle)
   end
 
   # POST /solutions or /solutions.json
@@ -78,6 +78,12 @@ class SolutionsController < ApplicationController
   end
 
   private
+
+    def set_puzzle
+      @puzzle = Puzzle.find_by(day: Date.current)
+
+      @puzzle = Puzzle.last unless @puzzle
+    end
 
     def set_solution
       @solution = Solution.find(params.expect(:id))

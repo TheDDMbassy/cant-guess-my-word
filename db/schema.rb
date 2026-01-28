@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_23_214437) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_28_050017) do
   create_table "puzzles", force: :cascade do |t|
     t.date "day"
     t.string "answer"
@@ -27,7 +27,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_23_214437) do
     t.integer "puzzle_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["elapsed_time"], name: "index_solutions_on_elapsed_time"
     t.index ["puzzle_id"], name: "index_solutions_on_puzzle_id"
+    t.index ["status"], name: "index_solutions_on_status"
   end
 
   add_foreign_key "solutions", "puzzles"
