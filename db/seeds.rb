@@ -7,3 +7,16 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+words = File.readlines('db/answers.txt').map(&:chomp).shuffle
+
+start_date = Date.new(2026, 1, 28)
+
+words.each_with_index do |word, index|
+  Puzzle.create!(
+    answer: word,
+    day: start_date + index.days
+  )
+end
+
+puts "Created #{words.count} puzzles starting from #{start_date}"
