@@ -21,7 +21,7 @@
 
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+solved:
   status: solved
   guesser_name: bing_bong_68
   elapsed_time: 2

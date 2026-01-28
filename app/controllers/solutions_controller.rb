@@ -2,6 +2,7 @@ class SolutionsController < ApplicationController
   before_action :set_solution, only: %i[ show update destroy guess give_up ]
   before_action :set_user_guess, only: %i[ create update guess ]
   before_action :set_puzzle, only: %i[ index new ]
+  before_action :set_guesser_name, only: %i[ update ]
 
   # GET /solutions or /solutions.json
   def index
@@ -40,7 +41,7 @@ class SolutionsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @solution.update(solution_params)
+      if @solution.update(guesser_name: @guesser_name)
         format.html { redirect_to solutions_path, notice: "Score successfully added to leaderboard!", status: :see_other }
       else
         format.html { render :show, status: :unprocessable_entity }
@@ -95,5 +96,9 @@ class SolutionsController < ApplicationController
 
     def solution_params
       params.expect(solution: [ :guesser_name, :user_guess, :puzzle_id ])
+    end
+
+    def set_guesser_name
+      @guesser_name = solution_params.dig(:guesser_name)&.strip
     end
 end

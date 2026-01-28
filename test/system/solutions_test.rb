@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class SolutionsTest < ApplicationSystemTestCase
   setup do
-    @solution = solutions(:one)
+    @solution = solutions(:solved)
   end
 
   test "visiting the index" do

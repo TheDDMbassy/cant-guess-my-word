@@ -64,7 +64,7 @@ class Solution < ApplicationRecord
     unless DICTIONARY.include?(word.downcase)
       log("nope, it's not in the dictionary")
       if errors[:most_recent_guess].count < 1
-        errors.add(:most_recent_guess, "Guess must be an English word. (Scrabble-acceptable)")
+        errors.add(:most_recent_guess, "Guess must be an actual word. (Scrabble-acceptable)")
       end
       return false
     end
