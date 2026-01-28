@@ -13,7 +13,7 @@ class SolutionsController < ApplicationController
 
   # GET /solutions/new
   def new
-    puzzle = Puzzle.find_by(day: Date.today)
+    puzzle = Puzzle.find_by(day: Date.current)
 
     puzzle = Puzzle.last unless puzzle
 
