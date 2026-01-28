@@ -127,14 +127,14 @@ class SolutionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 2, solution.elapsed_time, "solution's elapsed time is not as expected"
   end
 
-  test "should not be able to submit disallowed name" do
+  test "should not be able to submit inappropriate obscene name" do
     solution = solutions(:solved)
 
     # Make sure the input gets stripped
     patch solution_url(solution), params: { solution: { guesser_name: "shit", puzzle_id: solution.puzzle_id } }
 
     assert_response :unprocessable_entity
-    assert_template :solved
+    assert_match "contains inappropriate language", @response.body
   end
 
   test "should measure elapsed time properly" do

@@ -12,11 +12,16 @@
 
   </div>
   <%= form_with(model: solution) do |form| %>
-    <<div class="flex">
-
-    </div>
     <label class="text-sm">enter your name for the completion board</label>
     <%= form.text_field :guesser_name, class: "mr-2 rounded-sm border px-1" %>
     <%= form.submit "submit", class: "mr-2 rounded-sm border px-1 bg-gray-200" %>
+    <% if solution.errors.any? %>
+      <div id="error_explanation" class="text-sm bg-red-50 text-red-500 px-3 mt-1 rounded-sm">
+        <% solution.errors.each do |error| %>
+          <%= error.message %>
+        <% end %>
+      </div>
+    <% end %>
   <% end %>
+
 </div>
