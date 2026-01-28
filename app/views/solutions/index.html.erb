@@ -1,4 +1,4 @@
-<% content_for :title, "Today's Leaderboard" %>
+<% content_for :title, "Can't Guess My Word Leaderboard" %>
 
 <div class="w-full">
   <% if notice.present? %>
@@ -6,16 +6,15 @@
   <% end %>
 
   <div class="flex justify-between items-center">
-    <h3 class="font-bold text-2xl">Today's Leaderboard</h1>
+    <h3 class="font-bold text-xl ml-2 mt-3"><%= "Leaderboard for #{Date.current}" %></h3>
   </div>
 
   <div id="solutions" class="leaderboard min-w-full divide-y divide-gray-200 space-y-5">
     <% if @solutions.any? %>
       <div class="leaderboard-header font-bold flex">
         <div class="leaderboard-name basis-40 text-center">Name</div>
-        <div class="leaderboard-guesses basis-25 text-center">Guesses</div>
+        <div class="leaderboard-guesses basis-30 text-center">Guesses</div>
         <div class="leaderboard-time basis-30 text-center">Time</div>
-        <div class="leaderboard-awards basis-40 text-center">Award</div>
       </div>
       <% @solutions.each do |solution| %>
         <div class="flex row">

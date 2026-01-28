@@ -8,5 +8,5 @@
 
   <%= render @solution %>
 
-  <%= button_to "Destroy this solution", @solution, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+  <%= link_to 'View leaderboard', solutions_path, class: "underline text-blue-700 ml-36" %>
 </div>
