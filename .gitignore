@@ -5,7 +5,7 @@
 # `$XDG_CONFIG_HOME/git/ignore` or `~/.config/git/ignore`
 
 # Ignore answers
-db/seed_words.txt
+db/answers.txt
 
 # Ignore bundler config.
 /.bundle
