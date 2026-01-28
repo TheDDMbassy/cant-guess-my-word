@@ -68,3 +68,5 @@ gem "aasm"
 gem "annotate"
 gem "foreman"
 gem "tailwindcss-rails", "~> 4.4"
+
+gem "dockerfile-rails", ">= 1.7", group: :development
